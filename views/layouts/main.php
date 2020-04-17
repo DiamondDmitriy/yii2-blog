@@ -5,8 +5,8 @@
 
 use app\widgets\Alert;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -35,28 +35,46 @@ AppAsset::register($this);
             'brandLabel' => Yii::$app->name,
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
-                'class' => 'navbar-inverse navbar-fixed-top',
+                'class' => 'navbar navbar-expand-lg navbar-dark bg-dark'
             ],
         ]);
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
+            'options' => ['class' => 'navbar-brand navbar-nav'],
             'items' => [
                 ['label' => 'Главная', 'url' => ['/']],
                 ['label' => 'О сайте', 'url' => ['/about']],
                 ['label' => 'Контакты', 'url' => ['/site/contact']],
-                (!Yii::$app->user->isGuest) ?
-                    (['label' => Yii::$app->user->identity->name, 'url' => ['/account']]) : '',
-
-                Yii::$app->user->isGuest ? (['label' => 'Войти', 'url' => ['/auth/login']]) : ('<li>'
-                    . Html::beginForm(['/auth/logout'], 'post')
-                    . Html::submitButton(
-                        'Выйте',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'),
             ],
         ]);
+
+
+
+        $itemsAuth = [
+            ['label' => Yii::$app->user->identity->name, 'url' => ['/account']],
+            ('<li>'
+                . Html::beginForm(['/auth/logout'], 'post')
+                . Html::submitButton(
+                    'Выйте',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'),
+            (Html::a('', '/account', [
+                'class' => 'text-center align-self-center',
+                'style' => 'border-radius: 50%; width: 50px; background-color: white; height: 50px; color: black'
+            ])),
+        ];
+
+        $itemsAuthLogin = [
+            ['label' => 'Войти', 'url' => ['/auth/login']]
+        ];
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-brand navbar-nav ml-auto'],
+            'items' => (Yii::$app->user->isGuest) ? $itemsAuthLogin : $itemsAuth,
+
+        ]);
+
         NavBar::end();
         ?>
 
