@@ -1,7 +1,7 @@
 <?php
 
 
-$rules = require(dirname(__FILE__).'/rules.php');
+$rules = require(dirname(__FILE__) . '/rules.php');
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -12,6 +12,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@web' => dirname(__DIR__),
     ],
     'components' => [
         'view' => [
@@ -68,7 +69,7 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules'=> $rules,
+            'rules' => $rules,
         ],
 
     ],

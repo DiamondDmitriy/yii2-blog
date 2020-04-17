@@ -1,23 +1,19 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Авторизаци';
-// $this->params['breadcrumbs'][] = $this->title;
-$url_reg = '/registration';
+$this->title = 'Регистрация';
+$url_sign_in = '/login';
 ?>
-<div class="site-login">
+
+<div class="site-sign-in">
     <!-- Html::encode($this->title)  -->
-    <h1><?= '' ?>Псс.. Не желаешь войти?</h1>
-    <p>Просто заполни поля ниже, делов-то..</p>
+    <h1>Ты у нас новенький?</h1>
+    <p>Давай зарегистрируем тебя на платформе :)</p>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
+        'id' => 'sign-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -25,21 +21,26 @@ $url_reg = '/registration';
         ],
     ]); ?>
 
-    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+
+    <?= $form->field($model, 'lastname')->textInput() ?>
+
+    <?= $form->field($model, 'email')->textInput(['placeholder'=>'same@youmail.com']) ?>
+
+    <?= $form->field($model, 'login')->textInput() ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 
-    <?= $form->field($model, 'rememberMe')->checkbox([
-        'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-    ]) ?>
+    <?= $form->field($model, 'password_repeat')->passwordInput() ?>
+
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
 
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::a('Зарегистрироваться', $url_reg, []) ?>
+            <?= Html::a('Войти', $url_sign_in, []) ?>
         </div>
     </div>
 

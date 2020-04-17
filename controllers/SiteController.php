@@ -7,8 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\RegistrationForm;
 
 class SiteController extends Controller
 {
@@ -36,7 +36,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index.twig');
+        $this->layout = 'main';
+        // $this->layout = 'mainPanel';
+        // return $this->render('index.twig');
+        return $this->render('index.php');
+
     }
 
     /**
@@ -65,5 +69,39 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+
+    /**
+     * 
+     * 
+     */
+    public function actionRegistration()
+    {
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new RegistrationForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->registration()) {
+            return $this->redirect('/');
+        }
+        
+
+        // $sql = 'SELECT * FROM `user` ';
+        // $users = (new \yii\db\Query())->select('*')->from('user')->all();
+        // Yii::warning($model->getDB());
+        // if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        //     return $this->goBack();
+        // }
+
+        return $this->render(
+            'registration',
+            [
+                'model' => $model,
+            ]
+        );
     }
 }
