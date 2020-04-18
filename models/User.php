@@ -12,10 +12,16 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $mail;
     public $login;
     public $auth_key;
-
-    private $sql_users = <<<SQL
-SELECT * FROM `users`
-SQL;
+    public $patronymic;
+    public $age;
+    public $url_photo;
+    public $publication_count;
+    public $like_count;
+    public $liked_count;
+    public $comments_count;
+    public $subscribes_count;
+    public $subscribes;
+    public $status;
 
     public function getDb()
     {
@@ -50,12 +56,9 @@ SQL;
      */
     public static function findIdentity($id)
     {
-
-        // $t = ($this->getUsersList($id)) ?  : null;
         $t = new static(self::getUsersList($id));
-        // var_dump($t);
         return $t;
-        // return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        // return null;
     }
 
     /**

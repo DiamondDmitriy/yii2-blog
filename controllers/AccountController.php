@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\ContactForm;
 use app\models\RegistrationForm;
+use app\models\settingAcountModel;
 
 class AccountController extends Controller
 {
@@ -37,8 +38,24 @@ class AccountController extends Controller
     public function actionIndex($id = null)
     {
         $this->layout = 'main';
-        // $this->layout = 'mainPanel';
-        // return $this->render('index.twig');
         return $this->render('index.php');
+    }
+
+    public function actionSetting()
+    {
+        $model = new settingAcountModel();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+
+                echo $model->update();
+                die();
+                return $this->redirect(['/account']);
+            }
+        }
+
+        return $this->render('setting', [
+            'model' => $model,
+        ]);
     }
 }

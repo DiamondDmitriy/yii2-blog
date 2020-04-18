@@ -6,5 +6,6 @@ return [
     'registration'=>'site/registration',
     'login' => 'auth/login',
     'logout' => 'auth/logout',
-    'account'=>'account/index'
+    'account'=>'account/index',
+    'account/setting'=>'account/setting',
 ];
