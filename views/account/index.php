@@ -46,6 +46,6 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
 
 
 <div class=" p-3 mb-2 bg-secondary text-white d-flex" style="margin-top:100px;">
-    <h4>Посты</h4>
-    <a href="#" class="btn btn-primary ml-auto">Добавить</a>
+    <h4 class="font-weight-bold align-self-center mb-0">Посты</h4>
+    <a href="/publications/create" class="btn btn-primary ml-auto">Добавить</a>
 </div>
