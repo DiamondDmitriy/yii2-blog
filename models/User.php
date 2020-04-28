@@ -23,12 +23,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $subscribes;
     public $status;
 
-    public function getDb()
-    {
-        return Yii::$app->db;
-    }
-
-
     public static function getUsersList($id = null)
     {
         try {

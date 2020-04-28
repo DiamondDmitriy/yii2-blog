@@ -17,7 +17,8 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'status')->textarea(['value' => Yii::$app->user->identity->status]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-primary']) ?>
+    <a href="/account" class="btn btn-link">Назад</a>
+        <?= Html::submitButton('Сохранить изменения', ['class' => 'btn btn-primary ml-auto','style'=>'display:block']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

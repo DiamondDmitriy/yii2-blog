@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\ContactForm;
 use app\models\RegistrationForm;
+use app\models\UploadImage;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -40,7 +42,6 @@ class SiteController extends Controller
         // $this->layout = 'mainPanel';
         // return $this->render('index.twig');
         return $this->render('index.php');
-
     }
 
     /**
@@ -88,7 +89,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->registration()) {
             return $this->redirect('/');
         }
-        
+
 
         // $sql = 'SELECT * FROM `user` ';
         // $users = (new \yii\db\Query())->select('*')->from('user')->all();
@@ -104,4 +105,15 @@ class SiteController extends Controller
             ]
         );
     }
+
+    // public function actionUploadImg()
+    // {
+    //     $model = new UploadImage();
+    //     if (Yii::$app->request->isPost) {
+    //         $model->image =  UploadedFile::getInstance($model, 'image');
+    //         $model->upload();
+    //         return $this->render('upload', ['model' => $model]);
+    //     }
+    //     return $this->render('upload', ['model' => $model]);
+    // }
 }

@@ -18,7 +18,7 @@ class PublicationsSearch extends Publications
     {
         return [
             [['id', 'comments_post'], 'integer'],
-            [['title', 'cover_img_url', 'summary', 'content', 'creater', 'genre'], 'safe'],
+            [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class PublicationsSearch extends Publications
             ->andFilterWhere(['like', 'cover_img_url', $this->cover_img_url])
             ->andFilterWhere(['like', 'summary', $this->summary])
             ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'creater', $this->creater])
+            ->andFilterWhere(['like', 'creater_id', $this->creater_id])
             ->andFilterWhere(['like', 'genre', $this->genre]);
 
         return $dataProvider;

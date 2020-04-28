@@ -5,9 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Publications;
 use app\models\PublicationsSearch;
+use app\models\Site;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+// use app\models\UploadImage;
+use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 
 /**
  * PublicationsController implements the CRUD actions for Publications model.
@@ -65,13 +69,26 @@ class PublicationsController extends Controller
     public function actionCreate()
     {
         $model = new Publications();
+        $genre = Site::getJenre();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        // Yii::warning($model->image);
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->image =  UploadedFile::getInstance($model, 'image');
+            $model->uploadImage(true);
+            return $this->render('create', ['model' => $model]);
         }
+
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // return $this->redirect(['view', 'id' => $model->id]);
+        // }
+
+        // ? ArrayHelper::map($genre, 'alias', 'name') : []
 
         return $this->render('create', [
             'model' => $model,
+            'genreList' => $genre,
         ]);
     }
 
@@ -124,4 +141,16 @@ class PublicationsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+    // public function actionUpload()
+    // {
+    //     // $model = new UploadImage();
+    //     if (Yii::$app->request->isPost) {
+    //         $model->image =  UploadedFile::getInstance($model, 'image');
+    //         $model->upload();
+    //         return $this->render('upload', ['model' => $model]);
+    //     }
+    //     return $this->render('upload', ['model' => $model]);
+    // }
 }

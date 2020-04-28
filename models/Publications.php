@@ -12,12 +12,15 @@ use Yii;
  * @property string $cover_img_url
  * @property string $summary
  * @property resource $content
- * @property string $creater
+ * @property int $creater_id
  * @property string $genre
  * @property int $comments_post
  */
 class Publications extends \yii\db\ActiveRecord
 {
+
+    public $image;
+
     /**
      * {@inheritdoc}
      */
@@ -32,11 +35,13 @@ class Publications extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'cover_img_url', 'summary', 'content', 'creater', 'genre', 'comments_post'], 'required'],
+            // [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'comments_post'], 'required'],
             [['cover_img_url', 'summary', 'content'], 'string'],
-            [['comments_post'], 'integer'],
-            [['title', 'creater'], 'string', 'max' => 255],
-            [['genre'], 'string', 'max' => 1024],
+            [['comments_post', 'creater_id'], 'integer'],
+            [['title'], 'string', 'max' => 255],
+            [['genre'], 'safe'],
+
+            [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -47,13 +52,34 @@ class Publications extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'cover_img_url' => 'Cover Img Url',
-            'summary' => 'Summary',
-            'content' => 'Content',
-            'creater' => 'Creater',
-            'genre' => 'Genre',
-            'comments_post' => 'Comments Post',
+            'title' => 'Заголовок',
+            'cover_img_url' => 'Изображение',
+            'summary' => 'Краткое содержание',
+            'content' => 'Содержание',
+            'creater_id' => 'Создатель',
+            'genre' => 'Жанр',
+            'comments_post' => 'Комментарии id',
+            'image'=> 'Превью изображения',
         ];
+    }
+
+    // public function beforeSave($insert)
+    // {
+
+    // }
+
+
+    public function uploadImage($tmp = false)
+    {
+        if ($this->validate() && $tmp) {
+
+            $this->image->saveAs("uploads/tmp/{$this->image->baseName}.{$this->image->extension}");
+        } else if (!$tmp) {
+            $this->image->baseName = uniqid();
+            var_dump($this->image->baseName);
+            // $this->image->saveAs("uploads/img/{$this->image->baseName}.{$this->image->extension}");
+        } else {
+            return false;
+        }
     }
 }

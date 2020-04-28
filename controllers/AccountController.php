@@ -8,8 +8,10 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\ContactForm;
+use app\models\PublicationsSearch;
 use app\models\RegistrationForm;
 use app\models\settingAcountModel;
+use app\models\UploadImage;
 
 class AccountController extends Controller
 {
@@ -38,7 +40,14 @@ class AccountController extends Controller
     public function actionIndex($id = null)
     {
         $this->layout = 'main';
-        return $this->render('index.php');
+
+        $dataProvider = new PublicationsSearch();
+        $modelUploadImg = new UploadImage();
+
+        return $this->render('index.php', [
+            'dataProvider' => $dataProvider->search([]),
+            'modelUploadImg' => $modelUploadImg,
+        ]);
     }
 
     public function actionSetting()
@@ -47,9 +56,7 @@ class AccountController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-
-                echo $model->update();
-                die();
+                // echo $model->update();
                 return $this->redirect(['/account']);
             }
         }

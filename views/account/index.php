@@ -1,6 +1,13 @@
 <?php
 
+use yii\bootstrap4\ActiveForm as Bootstrap4ActiveForm;
+use yii\widgets\ListView;
+use yii\widgets\Pjax;
+use yii\widgets\ActiveForm;
+
 $user =  Yii::$app->user->identity;
+
+
 
 $iconSetting = <<<HTML
 <svg class="bi bi-gear" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -27,25 +34,84 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
 
 
 <div class="row">
-    <div class="col-md-3">
-        <img src="s" width="250px" height="250px">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="#"><?= $iconDownload ?> Загрузить изображение</a></li>
-            <li class="list-group-item"><a href="/account/setting"><?= $iconSetting ?> Настройки</a></li>
-        </ul>
+  <div class="col-md-3">
+    <img src="s" width="250px" height="250px">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><button class="btn btn-link" style="display: contents;" data-toggle="modal" data-target=".bd-uploadImg-modal"><?= $iconDownload ?> Загрузить изображение</button></li>
+      <li class="list-group-item"><a href="/account/setting"><?= $iconSetting ?> Настройки</a></li>
+    </ul>
 
-    </div>
-    <div class="col-sm-7 offset-md-2">
-        <ul class="border list-group list-group-flush">
-            <li class="list-group-item"><span class="font-weight-bold">ФИО:</span> <span class="justify-content-end"><?= $fio ?></span></li>
-            <li class="list-group-item"><span class="font-weight-bold">Я сказал:</span> <span class="text-right"><?= $user->status ?></span> </li>
-            <li class="list-group-item"><span class="font-weight-bold">Возраст:</span><span class="pull-right"><?= $user->age ?></span></li>
-        </ul>
-    </div>
+  </div>
+  <div class="col-sm-7 offset-md-2">
+    <ul class="border list-group list-group-flush">
+      <li class="list-group-item"><span class="font-weight-bold">ФИО:</span> <span class="justify-content-end"><?= $fio ?></span></li>
+      <li class="list-group-item"><span class="font-weight-bold">Я сказал:</span> <span class="text-right"><?= $user->status ?></span> </li>
+      <li class="list-group-item"><span class="font-weight-bold">Возраст:</span><span class="pull-right"><?= $user->age ?></span></li>
+    </ul>
+  </div>
 </div>
 
 
-<div class=" p-3 mb-2 bg-secondary text-white d-flex" style="margin-top:100px;">
-    <h4 class="font-weight-bold align-self-center mb-0">Посты</h4>
-    <a href="/publications/create" class="btn btn-primary ml-auto">Добавить</a>
+<div class="row">
+  <div class="col-md-12" style="padding-left:0; padding-right:0px;">
+    <div class=" p-3 mb-2 bg-secondary text-white d-flex" style="margin-top:100px;">
+      <h4 class="font-weight-bold align-self-center mb-0">Посты</h4>
+      <a href="/publications/create" class="btn btn-primary ml-auto">Добавить</a>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+
+    <?= ListView::widget([
+      'dataProvider' => $dataProvider,
+      'itemView' => '../publications/publication_card',
+      'summary' => 'Показано {count} из {totalCount}',
+    ]);
+    ?>
+  </div>
+</div>
+
+
+
+
+<!-- modal -->
+<div class="modal fade bd-uploadImg-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Загрузка изображения</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <?php
+      Pjax::begin();
+      $form = Bootstrap4ActiveForm::begin([
+        'id' => 'upload-img',
+        'options' => [
+          'class' => 'form-horizontal',
+          'data-pjax' => true,
+        ],
+        'fieldConfig' => [
+          'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
+        ],
+      ]);
+      ?>
+      <div class="modal-body">
+        <p>Выберите изображение на своём компьтере</p>
+        <?= $form->field($modelUploadImg, 'image')->input('image')->label(''); ?>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <submit type="button" class="btn btn-primary disabled">Сохранить</submit>
+      </div>
+
+      <?php
+      Bootstrap4ActiveForm::end();
+      Pjax::end();
+      ?>
+    </div>
+  </div>
 </div>
