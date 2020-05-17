@@ -1,7 +1,8 @@
 <?php
 
 return [
-    '/' => 'site/index',
+    '/' => 'publications/index',
+    'news'=>'site/news',
     'about' => 'site/about',
     'registration'=>'site/registration',
     'login' => 'auth/login',

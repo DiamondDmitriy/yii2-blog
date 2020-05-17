@@ -18,7 +18,7 @@ class PublicationsSearch extends Publications
     {
         return [
             [['id', 'comments_post'], 'integer'],
-            [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre'], 'safe'],
+            [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'data_create'], 'safe'],
         ];
     }
 
@@ -42,17 +42,15 @@ class PublicationsSearch extends Publications
     {
         $query = Publications::find();
 
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 

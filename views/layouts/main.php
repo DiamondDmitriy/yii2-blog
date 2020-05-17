@@ -41,7 +41,7 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-brand navbar-nav'],
             'items' => [
-                ['label' => 'Главная', 'url' => ['/']],
+                ['label' => 'Новости', 'url' => ['/news']],
                 ['label' => 'О сайте', 'url' => ['/about']],
                 ['label' => 'Контакты', 'url' => ['/site/contact']],
             ],
@@ -87,11 +87,16 @@ AppAsset::register($this);
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer d-flex" style="height:auto">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <div class="main-info d-flex">
+                <p class="pull-left">&copy; Дмитрий Щёлкин Александрович  <?= date('Y') ?></p>
+                <p class="ml-auto"><?= Yii::powered() ?></p>
+            </div>
+            <div class="discription" >
+                <p><small>Разработка дипломного проекта на фреймворке Yii</small></p>
+            </div>
 
-            <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
 

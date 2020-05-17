@@ -38,9 +38,14 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'verifyCode' => 'Код верефикации',
+            'name'=>'Имя',
+            'email'=>'Email',
+            'subject'=>'Тема',
+            'body'=>'Сообщение',
         ];
     }
+    
 
     /**
      * Sends an email to the specified email address using the information collected by this model.

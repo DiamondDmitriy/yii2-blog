@@ -38,10 +38,11 @@ class Publications extends \yii\db\ActiveRecord
             // [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'comments_post'], 'required'],
             [['cover_img_url', 'summary', 'content'], 'string'],
             [['comments_post', 'creater_id'], 'integer'],
-            [['title'], 'string', 'max' => 255],
-            [['genre'], 'safe'],
-
+            [['title'], 'string', 'max' => 255, 'min' => 3],
+            [['genre', 'data_create'], 'safe'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
+
+            // [['title', 'genre', 'image', 'content', 'summary'], 'required'],
         ];
     }
 
@@ -59,27 +60,43 @@ class Publications extends \yii\db\ActiveRecord
             'creater_id' => 'Создатель',
             'genre' => 'Жанр',
             'comments_post' => 'Комментарии id',
-            'image'=> 'Превью изображения',
+            'image' => 'Превью изображения',
+            'data_create'=>'data',
         ];
     }
 
-    // public function beforeSave($insert)
-    // {
-
-    // }
-
-
-    public function uploadImage($tmp = false)
+    public function parsingGenre($genre)
     {
-        if ($this->validate() && $tmp) {
+        if (!empty($genre))
+            return implode(',', $genre);
+    }
 
-            $this->image->saveAs("uploads/tmp/{$this->image->baseName}.{$this->image->extension}");
-        } else if (!$tmp) {
-            $this->image->baseName = uniqid();
-            var_dump($this->image->baseName);
-            // $this->image->saveAs("uploads/img/{$this->image->baseName}.{$this->image->extension}");
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->genre = $this->parsingGenre($this->genre);
+            $this->creater_id = Yii::$app->user->identity->id;
+
+            return true;
+        }
+        return false;
+    }
+
+
+    public function uploadImage()
+    {
+        $fileName =  $this->getNameImage();
+
+        if ($this->validate()) {
+            $this->image->saveAs("uploads/img/posts/" . $fileName);
+            return  $fileName;
         } else {
             return false;
         }
+    }
+
+    public function getNameImage()
+    {
+        return md5(uniqid($this->image->baseName)) . '.' . $this->image->extension;
     }
 }

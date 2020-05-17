@@ -31,4 +31,13 @@ SQL;
             Yii::error($e->getMessage());
         }
     }
+
+    public static function hasFile($filePath, $webroot = false)
+    {
+        if($webroot){
+            $filePath = Yii::getAlias('@webroot') . $filePath;
+        }
+
+        return file_exists($filePath);
+    }
 }

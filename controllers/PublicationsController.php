@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\CommentsModel;
 use Yii;
 use app\models\Publications;
 use app\models\PublicationsSearch;
@@ -56,8 +57,24 @@ class PublicationsController extends Controller
      */
     public function actionView($id)
     {
+        $modelComments = new CommentsModel();
+        $postComments =  CommentsModel::search($id);
+
+        //save comments 
+        if (Yii::$app->request->isPost) {
+            $modelComments->load(Yii::$app->request->post());
+            $modelComments->date = date("Y-m-d H:i:s");
+            $modelComments->user_id =  Yii::$app->user->identity->id;
+            if ($modelComments->save()) {
+                $modelComments->comment = '';
+                $postComments =  CommentsModel::search($id);
+            }
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'modelComments' => $modelComments,
+            'postComments' => $postComments,
         ]);
     }
 
@@ -71,20 +88,16 @@ class PublicationsController extends Controller
         $model = new Publications();
         $genre = Site::getJenre();
 
-
-        // Yii::warning($model->image);
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());
             $model->image =  UploadedFile::getInstance($model, 'image');
-            $model->uploadImage(true);
-            return $this->render('create', ['model' => $model]);
-        }
+            $model->cover_img_url = $model->uploadImage();
 
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->save(false);
+
+            return $this->redirect('/account');
             // return $this->redirect(['view', 'id' => $model->id]);
-        // }
-
-        // ? ArrayHelper::map($genre, 'alias', 'name') : []
+        }
 
         return $this->render('create', [
             'model' => $model,

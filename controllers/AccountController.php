@@ -11,7 +11,8 @@ use app\models\ContactForm;
 use app\models\PublicationsSearch;
 use app\models\RegistrationForm;
 use app\models\settingAcountModel;
-use app\models\UploadImage;
+use yii\web\UploadedFile;
+use app\models\auxiliary\UploadImage;
 
 class AccountController extends Controller
 {
@@ -42,11 +43,9 @@ class AccountController extends Controller
         $this->layout = 'main';
 
         $dataProvider = new PublicationsSearch();
-        $modelUploadImg = new UploadImage();
 
         return $this->render('index.php', [
             'dataProvider' => $dataProvider->search([]),
-            'modelUploadImg' => $modelUploadImg,
         ]);
     }
 

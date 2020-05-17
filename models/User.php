@@ -22,6 +22,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $subscribes_count;
     public $subscribes;
     public $status;
+    public $fio;
 
     public static function getUsersList($id = null)
     {
@@ -33,8 +34,12 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             if (!is_null($id)) {
                 $userQ->where(['id' => $id]);
                 $userQ = $userQ->one();
+                $userQ['fio'] = implode(" ", [$userQ['lastname'], $userQ['name'], $userQ['patronymic']]);
             } else {
                 $userQ = $userQ->all();
+                foreach ($userQ as &$user) {
+                    $user['fio'] = implode(" ", [$userQ['lastname'], $userQ['name'], $userQ['patronymic']]);
+                }
             }
 
 
@@ -50,9 +55,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        $t = new static(self::getUsersList($id));
-        return $t;
-        // return null;
+        return new static(self::getUsersList($id));
     }
 
     /**
@@ -85,6 +88,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
                 ->where(['login' => $username])
                 ->orWhere(['mail' => $username])
                 ->one();
+
+            $userQ['fio'] = implode(" ", [$userQ['Lastname'], $userQ['Name'], $userQ['Patronymic']]);
 
             return new static($userQ);
         } catch (\yii\db\Exception $e) {

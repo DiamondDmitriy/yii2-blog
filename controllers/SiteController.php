@@ -3,13 +3,10 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\ContactForm;
-use app\models\RegistrationForm;
-use app\models\UploadImage;
+use yii\filters\{AccessControl, VerbFilter};
+use yii\web\{Controller, Response};
+use app\models\{ContactForm, NewsModel, RegistrationForm, Site};
+use app\models\auxiliary\UploadImage;
 use yii\web\UploadedFile;
 
 class SiteController extends Controller
@@ -62,6 +59,15 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionNews()
+    {
+        $news = NewsModel::search();
+
+        return $this->render('news', [
+            'news' => $news,
+        ]);
+    }
+
     /**
      * Displays about page.
      *
@@ -90,14 +96,6 @@ class SiteController extends Controller
             return $this->redirect('/');
         }
 
-
-        // $sql = 'SELECT * FROM `user` ';
-        // $users = (new \yii\db\Query())->select('*')->from('user')->all();
-        // Yii::warning($model->getDB());
-        // if ($model->load(Yii::$app->request->post()) && $model->login()) {
-        //     return $this->goBack();
-        // }
-
         return $this->render(
             'registration',
             [
@@ -105,15 +103,4 @@ class SiteController extends Controller
             ]
         );
     }
-
-    // public function actionUploadImg()
-    // {
-    //     $model = new UploadImage();
-    //     if (Yii::$app->request->isPost) {
-    //         $model->image =  UploadedFile::getInstance($model, 'image');
-    //         $model->upload();
-    //         return $this->render('upload', ['model' => $model]);
-    //     }
-    //     return $this->render('upload', ['model' => $model]);
-    // }
 }

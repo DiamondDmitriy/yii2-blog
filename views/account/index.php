@@ -4,10 +4,10 @@ use yii\bootstrap4\ActiveForm as Bootstrap4ActiveForm;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 $user =  Yii::$app->user->identity;
-
-
+$imgProfile = Html::img(!empty($user->url_photo) ? 's' : Yii::$app->params['defaultImg']['profile'], ['height' => '300px', 'width' => '300px']);
 
 $iconSetting = <<<HTML
 <svg class="bi bi-gear" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,8 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
 
 <div class="row">
   <div class="col-md-3">
-    <img src="s" width="250px" height="250px">
+    <!-- <img src="s" width="250px" height="250px"> -->
+    <?= $imgProfile ?>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><button class="btn btn-link" style="display: contents;" data-toggle="modal" data-target=".bd-uploadImg-modal"><?= $iconDownload ?> Загрузить изображение</button></li>
       <li class="list-group-item"><a href="/account/setting"><?= $iconSetting ?> Настройки</a></li>
@@ -66,6 +67,15 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
       'dataProvider' => $dataProvider,
       'itemView' => '../publications/publication_card',
       'summary' => 'Показано {count} из {totalCount}',
+      'layout' => "{pager}\n{summary}\n{items}\n{pager}",
+
+      'pager' => [
+        'firstPageLabel' => 'Первая',
+        'lastPageLabel' => 'Последняя',
+        'nextPageLabel' => 'Следующая',
+        'prevPageLabel' => 'Предыдущая',
+        'maxButtonCount' => 1,
+      ],
     ]);
     ?>
   </div>
@@ -100,7 +110,7 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
       ?>
       <div class="modal-body">
         <p>Выберите изображение на своём компьтере</p>
-        <?= $form->field($modelUploadImg, 'image')->input('image')->label(''); ?>
+        <?= /* $form->field($modelUploadImg, 'image')->fileInput('image')->label(''); */ '' ?>
       </div>
 
       <div class="modal-footer">

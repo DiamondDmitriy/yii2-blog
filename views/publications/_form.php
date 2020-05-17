@@ -5,6 +5,7 @@ use yii\bootstrap4\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use kartik\select2\Select2;
 use yii\widgets\Pjax;
+use yii\base\View;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Publications */
@@ -19,20 +20,15 @@ use yii\widgets\Pjax;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+    <? $form->field($model, 'image')->fileInput(['id' => 'image-form', 'class' => '', 'style' => 'width: min-content;']) ?>
 
-    <?php Pjax::begin([
-        'id' => 'pjax_upload_img',
+    <?= Html::img('#', ['width' => '800px', 'id' => 'blant']); ?>
+
+    <?= \Yii::$app->view->renderFile('@app/views/site/layout/uploadImg.php', [
+        'form' => $form,
+        'model' => $model,
+        'widthImg' => '100%'
     ]); ?>
-
-    <?php if ($model->image) : ?>
-        <img src="/uploads/<?= $model->image ?>" alt="" width="100%">
-    <?php endif; ?>
-
-    <?php Pjax::end(); ?>
-    <?= $form->field($model, 'image')->fileInput(['id' => 'image-form', 'class' => '', 'style' => 'width: min-content;', 'onChange' => 'updatePjax()']) ?>
-
-
-
 
 
     <!-- <? $form->field($model, 'cover_img_url')->textarea(['rows' => 6]) ?> -->
@@ -65,26 +61,3 @@ use yii\widgets\Pjax;
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<?php
-// скрипты и стили
-
-$JS_RELOAD_PJAX = <<< JS
-function updatePjax(){
-    setData = {'image': $('#image-form').val()};
-
-    $.ajax({
-        url:'/publications/create',
-        data: setData,
-        method: "POST",
-    },()=>{
-        $.pjax.reload('#pjax_upload_img');
-    });
-}
-
-
-
-
-JS;
-
-$this->registerJs($JS_RELOAD_PJAX,  yii\web\View::POS_END);

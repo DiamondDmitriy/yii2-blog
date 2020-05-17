@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PublicationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Publications';
+$this->title = 'Публикации';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="publications-index">
@@ -15,10 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Publications', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить публикацию', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
