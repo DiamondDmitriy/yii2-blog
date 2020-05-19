@@ -36,16 +36,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $model->content ?>
 
     <?php Pjax::begin(); ?>
-    <h3 class="comments-title">Комментарии</h3>
-    <div class="comment-add">
-        <?= $this->render('../layouts/comments', [
-            'modelComments' => $modelComments,
-            'idPost' => $model->id,
-        ]);
-        ?>
-    </div>
+    <h3 class="comments-title" style="margin-bottom:20px;">Комментарии</h3>
 
-    <div class="comments-section border border-secondary">
+    <?php if (!Yii::$app->user->isGuest) : ?>
+
+        <div class="comment-add">
+            <?= $this->render('../layouts/_add-comments', [
+                'modelComments' => $modelComments,
+                'idPost' => $model->id,
+            ]);
+            ?>
+        </div>
+    <?php else : ?>
+        <div class="alert alert-success">
+            Чтобы оставить коментарий <?= Html::a('Войдтите', '/login') ?> в профиль
+        </div>
+    <?php endif ?>
+
+    <div class="comments-section">
         <?php
 
         foreach ($postComments as $_comm) {
@@ -54,6 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);
         }
         ?>
+        <?php if (empty($postComments)) : ?>
+            <div class="alert alert-success">
+                Комментариев нет
+            </div>
+        <?php endif; ?>
     </div>
     <?php Pjax::end(); ?>
 

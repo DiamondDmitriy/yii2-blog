@@ -11,13 +11,17 @@ use app\models\Publications;
  */
 class PublicationsSearch extends Publications
 {
+
+    public $sortField = 'id';
+    public $orderSort = false;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'comments_post'], 'integer'],
+            [['id'], 'integer'],
             [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'data_create'], 'safe'],
         ];
     }
@@ -41,23 +45,22 @@ class PublicationsSearch extends Publications
     public function search($params)
     {
         $query = Publications::find();
-
+        $this->load($params);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+            'sort' => ['defaultOrder' => [$this->sortField => ($this->orderSort)?SORT_ASC : SORT_DESC]],
         ]);
-
-        $this->load($params);
 
         if (!$this->validate()) {
             return $dataProvider;
         }
 
+        // $ascDate;
+        // $ascWatch;
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'comments_post' => $this->comments_post,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
@@ -65,7 +68,9 @@ class PublicationsSearch extends Publications
             ->andFilterWhere(['like', 'summary', $this->summary])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'creater_id', $this->creater_id])
-            ->andFilterWhere(['like', 'genre', $this->genre]);
+            ->andFilterWhere(['like', 'genre', $this->genre])
+            ->andFilterWhere(['like', 'watch', $this->watch]);
+
 
         return $dataProvider;
     }

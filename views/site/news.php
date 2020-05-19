@@ -27,11 +27,15 @@ height: 300px;
 overflow-y: hidden;
 }
 .news__container{
-    margin-bottom:80px;
+    margin-bottom:40px;
 }
 
 .news__container.expand .news__content{
 height: auto;
+}
+
+.read-news{
+    margin-top: 20px;
 }
 CSS;
 
@@ -44,8 +48,6 @@ $('.read-news').click(function(){
     }else{
         this.innerText = 'Читать дальше...';
     }
-
-    console.log("tap");
 });
 JS;
 
@@ -56,7 +58,7 @@ $this->registerJS($mainJs, yii\web\View::POS_READY);
 ?>
 
 <div class="page-news">
-    <h1 style="margin-bottom: 80px">Новостной блок</h1>
+    <h1 style="margin-bottom: 40px">Новостной блок</h1>
 </div>
 
 <?php
@@ -67,7 +69,7 @@ foreach ($news as $new) {
     $template = <<<HTML
 <div class="news__container">
     <div class="news__img" style="background-image: url('{$imgUrl}');"></div>
-    <h3 class="news__title">{$new['title']}</h3>
+    <h3 class="news__title" style="margin: 30px 0;">{$new['title']}</h3>
     <div class="news__content">{$new['content']}</div>
     <button class="read-news btn btn-link text-info d-block ml-auto">Читать дальше...</button>
 </div>

@@ -14,7 +14,6 @@ use Yii;
  * @property resource $content
  * @property int $creater_id
  * @property string $genre
- * @property int $comments_post
  */
 class Publications extends \yii\db\ActiveRecord
 {
@@ -35,9 +34,8 @@ class Publications extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            // [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'comments_post'], 'required'],
             [['cover_img_url', 'summary', 'content'], 'string'],
-            [['comments_post', 'creater_id'], 'integer'],
+            [['creater_id'], 'integer'],
             [['title'], 'string', 'max' => 255, 'min' => 3],
             [['genre', 'data_create'], 'safe'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
@@ -59,9 +57,9 @@ class Publications extends \yii\db\ActiveRecord
             'content' => 'Содержание',
             'creater_id' => 'Создатель',
             'genre' => 'Жанр',
-            'comments_post' => 'Комментарии id',
             'image' => 'Превью изображения',
-            'data_create'=>'data',
+            'data_create' => 'data',
+            'watch' => 'watch'
         ];
     }
 
@@ -98,5 +96,15 @@ class Publications extends \yii\db\ActiveRecord
     public function getNameImage()
     {
         return md5(uniqid($this->image->baseName)) . '.' . $this->image->extension;
+    }
+
+    public static function inrementWatch($id)
+    {
+        $sql = "UPDATE `publications` SET `watch` = `watch` + 1 WHERE id = $id";
+        try {
+            Yii::$app->db->createCommand($sql)->execute();
+        } catch (\yii\db\Exception $e) {
+            Yii::error($e->getMessage());
+        }
     }
 }

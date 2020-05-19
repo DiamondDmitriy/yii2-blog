@@ -5,7 +5,7 @@ use yii\helpers\Html;
 // Yii::warning($comment);
 ?>
 
-<div class="comment d-flex">
+<div class="comment d-flex border border-secondary" style="margin-top:20px;">
     <div class="comment__left">
         <div class="user-img border" style="width:70px; height:70px;"></div>
     </div>

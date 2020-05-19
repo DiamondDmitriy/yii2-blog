@@ -47,8 +47,6 @@ AppAsset::register($this);
             ],
         ]);
 
-
-
         $itemsAuth = [
             ['label' => Yii::$app->user->identity->name, 'url' => ['/account']],
             ('<li>'

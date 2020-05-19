@@ -41,7 +41,13 @@ class PublicationsController extends Controller
     public function actionIndex()
     {
         $searchModel = new PublicationsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->post());
+
+        if (Yii::$app->request->isPost) {
+            $dataProvider = $searchModel->search(Yii::$app->request->post());
+            // var_dump(Yii::$app->request->post());
+            // die();
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -69,6 +75,8 @@ class PublicationsController extends Controller
                 $modelComments->comment = '';
                 $postComments =  CommentsModel::search($id);
             }
+        } else {
+            Publications::inrementWatch($id);
         }
 
         return $this->render('view', [
@@ -86,12 +94,12 @@ class PublicationsController extends Controller
     public function actionCreate()
     {
         $model = new Publications();
-        $genre = Site::getJenre();
 
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());
             $model->image =  UploadedFile::getInstance($model, 'image');
             $model->cover_img_url = $model->uploadImage();
+            $model->date_create = date("Y-m-d H:i:s");
 
             $model->save(false);
 
@@ -101,7 +109,6 @@ class PublicationsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'genreList' => $genre,
         ]);
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Site;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
@@ -10,7 +11,7 @@ use yii\base\View;
 /* @var $this yii\web\View */
 /* @var $model app\models\Publications */
 /* @var $form yii\widgets\ActiveForm */
-
+$genreList = Site::getJenre();
 ?>
 
 
@@ -29,9 +30,6 @@ use yii\base\View;
         'model' => $model,
         'widthImg' => '100%'
     ]); ?>
-
-
-    <!-- <? $form->field($model, 'cover_img_url')->textarea(['rows' => 6]) ?> -->
 
     <?= $form->field($model, 'summary')->textarea(['rows' => 6]) ?>
 

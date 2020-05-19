@@ -6,8 +6,8 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Publications */
 
-$this->title = 'Создание статьи';
-$this->params['breadcrumbs'][] = ['label' => 'Статьи', 'url' => ['index']];
+$this->title = 'Создание публикации';
+$this->params['breadcrumbs'][] = ['label' => 'Публикации', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="publications-create">

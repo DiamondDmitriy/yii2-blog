@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\db\Exception as db_ex;
+use yii\helpers\ArrayHelper;
+
 
 
 class Site extends yii\base\Model
@@ -26,7 +28,8 @@ SELECT * FROM `jenre`
 SQL;
 
         try {
-            return self::getDB()->createCommand($sql)->queryAll();
+            $jenre = self::getDB()->createCommand($sql)->queryAll();
+            return ArrayHelper::map($jenre,'id','name');
         } catch (db_ex $e) {
             Yii::error($e->getMessage());
         }
