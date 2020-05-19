@@ -29,7 +29,7 @@ SQL;
 
         try {
             $jenre = self::getDB()->createCommand($sql)->queryAll();
-            return ArrayHelper::map($jenre,'id','name');
+            return ArrayHelper::map($jenre,'alias','name');
         } catch (db_ex $e) {
             Yii::error($e->getMessage());
         }

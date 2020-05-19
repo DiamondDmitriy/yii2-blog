@@ -46,27 +46,25 @@ class PublicationsSearch extends Publications
     {
         $query = Publications::find();
         $this->load($params);
+        $this->sortField = ($params['PublicationsSearch']['sortField']) ? $params['PublicationsSearch']['sortField'] : 'id';
+        $this->orderSort = $params['PublicationsSearch']['orderSort'];
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => [$this->sortField => ($this->orderSort)?SORT_ASC : SORT_DESC]],
+            'sort' => ['defaultOrder' => [$this->sortField => ($this->orderSort) ? SORT_ASC : SORT_DESC]],
         ]);
 
         if (!$this->validate()) {
             return $dataProvider;
         }
 
-        // $ascDate;
-        // $ascWatch;
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'cover_img_url', $this->cover_img_url])
+        $query->andFilterWhere(['like', 'title', $params['PublicationsSearch']['title']])
             ->andFilterWhere(['like', 'summary', $this->summary])
-            ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'creater_id', $this->creater_id])
             ->andFilterWhere(['like', 'genre', $this->genre])
             ->andFilterWhere(['like', 'watch', $this->watch]);

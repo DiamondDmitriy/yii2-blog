@@ -44,8 +44,9 @@ class PublicationsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->post());
 
         if (Yii::$app->request->isPost) {
-            $dataProvider = $searchModel->search(Yii::$app->request->post());
-            // var_dump(Yii::$app->request->post());
+            $postData = Yii::$app->request->post();
+            $dataProvider = $searchModel->search($postData);
+            // var_dump($postData['PublicationsSearch']['sortField']);
             // die();
         }
 
