@@ -51,12 +51,16 @@ class AccountController extends Controller
 
     public function actionSetting()
     {
-        $model = new settingAcountModel();
+        $id = Yii::$app->user->identity->id;
+        $model = settingAcountModel::findOne(['id' => $id]);
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-                // echo $model->update();
-                return $this->redirect(['/account']);
+                // $model->id = Yii::$app->user->identity->id;
+
+                if ($model->save()) {
+                    return $this->redirect(['/account']);
+                }
             }
         }
 

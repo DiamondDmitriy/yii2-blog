@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Publications;
+use app\models\Site;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
@@ -11,9 +13,9 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Публикации', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
-
-
+$genrePost = Publications::getGenreName($model->genre);
 ?>
+
 <div class="publications-view">
 
     <?php if ($model->creater_id == Yii::$app->user->identity->id) : ?>
@@ -29,9 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
     <?php endif; ?>
 
+
+    <h1 style="margin-top: 60px;"><?= Html::encode($this->title) ?></h1>
+
+    <div class="panel-info-publ d-flex" style="margin-bottom: 25px;">
+        <p><strong>Жанры:</strong> <?= implode(', ', $genrePost) ?></span></p>
+        <p class="ml-auto"><strong>Просмотры:</strong> <span><?= $model->watch ?></span></p>
+    </div>
+
     <img src="\uploads\img\posts\<?= $model->cover_img_url ?>" width="100%">
 
-    <h1 style="margin-top: 60px;margin-bottom: 40px;"><?= Html::encode($this->title) ?></h1>
 
     <?= $model->content ?>
 

@@ -47,6 +47,7 @@ class CommentsModel extends \yii\db\ActiveRecord
                 ->select('*')
                 ->from('comments')
                 ->where(['id_post' => $post_id])
+                ->orderBy(['date' => SORT_DESC])
                 ->all();
 
             foreach ($query as &$comment) {

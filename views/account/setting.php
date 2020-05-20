@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
+
+$this->title = 'Настройки';
+$this->params['breadcrumbs'][] = ['label' => 'Аккаунт', 'url' => ['/account']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="account-setting">
 

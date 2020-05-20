@@ -14,7 +14,7 @@ $this->title = 'Публикации';
 $this->params['breadcrumbs'][] = $this->title;
 
 $genreList = Site::getJenre();
-$sortList = ['date'=>'дата', 'watch'=>'просмотры'];
+$sortList = ['date' => 'дата', 'watch' => 'просмотры'];
 
 $mainCss = <<<CSS
 .sidebar-filters{
@@ -27,8 +27,6 @@ $mainCss = <<<CSS
 .main-content{
 
 }
-
-
 CSS;
 
 $this->registerCSS($mainCss);
@@ -53,7 +51,6 @@ $this->registerCSS($mainCss);
                     'hideSearch' => true,
                     'options' => ['placeholder' => 'Выберите жанр'],
                     'pluginOptions' => [
-                        'multiple' => true,
                         'allowClear' => true
                     ],
                 ]);
@@ -72,8 +69,8 @@ $this->registerCSS($mainCss);
                 echo $form->field($searchModel, 'orderSort')->widget(SwitchInput::classname(), [])->label('По убыванию');
 
                 echo '<div class="d-flex">';
-                echo Html::a('Сбросить', '/clear-filter', ['class' => 'btn btn-secondary', 'data-pjax' => 0]);
-                echo Html::submitButton('Поиск', ['class' => 'btn btn-primary ml-auto']);
+                echo Html::submitButton('Поиск', ['class' => 'btn btn-primary mr-auto']);
+                echo Html::input('submit', 'clear-filters', 'Сбросить', ['id'=>'clear-submit','class' => 'btn btn-secondary', 'data-pjax' => 0]);
                 echo '</div>';
                 ActiveForm::end();
                 Pjax::end();

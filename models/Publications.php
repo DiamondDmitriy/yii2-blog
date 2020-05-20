@@ -37,7 +37,7 @@ class Publications extends \yii\db\ActiveRecord
             [['cover_img_url', 'summary', 'content'], 'string'],
             [['creater_id'], 'integer'],
             [['title'], 'string', 'max' => 255, 'min' => 3],
-            [['genre', 'data_create'], 'safe'],
+            [['genre', 'date_create'], 'safe'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
 
             // [['title', 'genre', 'image', 'content', 'summary'], 'required'],
@@ -58,7 +58,7 @@ class Publications extends \yii\db\ActiveRecord
             'creater_id' => 'Создатель',
             'genre' => 'Жанр',
             'image' => 'Превью изображения',
-            'data_create' => 'data',
+            'date_create' => 'data',
             'watch' => 'watch'
         ];
     }
@@ -106,5 +106,14 @@ class Publications extends \yii\db\ActiveRecord
         } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
         }
+    }
+
+    public static function getGenreName($genreList)
+    {
+        $jenre = Site::getJenre();
+        $genrePost = explode(',', $genreList);
+        return array_map(function ($item) use ($jenre) {
+            return $jenre[$item];
+        }, $genrePost);
     }
 }

@@ -22,7 +22,7 @@ class PublicationsSearch extends Publications
     {
         return [
             [['id'], 'integer'],
-            [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'data_create'], 'safe'],
+            [['title', 'cover_img_url', 'summary', 'content', 'creater_id', 'genre', 'date_create'], 'safe'],
         ];
     }
 

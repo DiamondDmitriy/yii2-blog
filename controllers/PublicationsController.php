@@ -41,13 +41,17 @@ class PublicationsController extends Controller
     public function actionIndex()
     {
         $searchModel = new PublicationsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->post());
+        $postData = Yii::$app->request->post();
+        $dataProvider = $searchModel->search($postData);
 
-        if (Yii::$app->request->isPost) {
-            $postData = Yii::$app->request->post();
-            $dataProvider = $searchModel->search($postData);
-            // var_dump($postData['PublicationsSearch']['sortField']);
+        if (isset($postData['clear-filters'])) {
+            // var_dump($postData['clear-filters']);
             // die();
+            $searchModel = new PublicationsSearch();
+            $dataProvider = $searchModel->search([]);
+            $dataProvider = $searchModel->search([]);
+        } elseif (Yii::$app->request->isPost) {
+            $dataProvider = $searchModel->search($postData);
         }
 
         return $this->render('index', [
