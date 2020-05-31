@@ -5,6 +5,7 @@ use app\models\Site;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Publications */
@@ -14,6 +15,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Публикации', 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $genrePost = Publications::getGenreName($model->genre);
+// Yii::warning();
 ?>
 
 <div class="publications-view">
@@ -41,8 +43,10 @@ $genrePost = Publications::getGenreName($model->genre);
 
     <img src="\uploads\img\posts\<?= $model->cover_img_url ?>" width="100%">
 
-
     <?= $model->content ?>
+    <p style="font-weight:bold">Автор статьи:
+        <span style="font-weight:400"><?= User::getUsersList($model->creater_id)['fio'] ?></span>
+    </p>
 
     <?php Pjax::begin(); ?>
     <h3 class="comments-title" style="margin-bottom:20px;">Комментарии</h3>
