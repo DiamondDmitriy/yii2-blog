@@ -48,7 +48,7 @@ AppAsset::register($this);
         ]);
 
         $itemsAuth = [
-            ['label' => isset(Yii::$app->user->identity->name) ?? '', 'url' => ['/account']],
+            ['label' => isset(Yii::$app->user->identity->name)? Yii::$app->user->identity->name : '', 'url' => ['/account']],
             ('<li>'
                 . Html::beginForm(['/auth/logout'], 'post')
                 . Html::submitButton(

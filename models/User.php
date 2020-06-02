@@ -89,7 +89,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
                 ->orWhere(['mail' => $username])
                 ->one();
 
-            $userQ['fio'] = implode(" ", [$userQ['Lastname'], $userQ['Name'], $userQ['Patronymic']]);
+            $lastname = isset($userQ['Lastname']) ? $userQ['Lastname'] : '';
+            $name = isset($userQ['Name']) ? $userQ['Name'] : '';
+            $patronymic = isset($userQ['Patronymic']) ? $userQ['Patronymic'] : '';
+
+            $userQ['fio'] = implode(" ", [$lastname, $name, $patronymic]);
 
             return new static($userQ);
         } catch (\yii\db\Exception $e) {
