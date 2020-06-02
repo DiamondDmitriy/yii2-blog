@@ -14,7 +14,7 @@ $this->title = 'Публикации';
 $this->params['breadcrumbs'][] = $this->title;
 
 $genreList = Site::getJenre();
-$sortList = ['date' => 'дата', 'watch' => 'просмотры'];
+$sortList = ['date_create' => 'дата', 'watch' => 'просмотры'];
 
 $mainCss = <<<CSS
 .sidebar-filters{

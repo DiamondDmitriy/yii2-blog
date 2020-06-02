@@ -46,8 +46,8 @@ class PublicationsSearch extends Publications
     {
         $query = Publications::find();
         $this->load($params);
-        $this->sortField = ($params['PublicationsSearch']['sortField']) ? $params['PublicationsSearch']['sortField'] : 'id';
-        $this->orderSort = $params['PublicationsSearch']['orderSort'];
+        $this->sortField = (empty($params['sortField'])) ? 'id' : $params['sortField'];
+        $this->orderSort = isset($params['orderSort']) ? $params['orderSort'] : false;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,7 +63,7 @@ class PublicationsSearch extends Publications
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $params['PublicationsSearch']['title']])
+        $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'summary', $this->summary])
             ->andFilterWhere(['like', 'creater_id', $this->creater_id])
             ->andFilterWhere(['like', 'genre', $this->genre])

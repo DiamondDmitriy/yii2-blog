@@ -45,13 +45,12 @@ class PublicationsController extends Controller
         $dataProvider = $searchModel->search($postData);
 
         if (isset($postData['clear-filters'])) {
-            // var_dump($postData['clear-filters']);
-            // die();
             $searchModel = new PublicationsSearch();
             $dataProvider = $searchModel->search([]);
             $dataProvider = $searchModel->search([]);
         } elseif (Yii::$app->request->isPost) {
-            $dataProvider = $searchModel->search($postData);
+            \Yii::warning($postData['PublicationsSearch']);
+            $dataProvider = $searchModel->search($postData['PublicationsSearch']);
         }
 
         return $this->render('index', [

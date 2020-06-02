@@ -48,7 +48,7 @@ AppAsset::register($this);
         ]);
 
         $itemsAuth = [
-            ['label' => Yii::$app->user->identity->name, 'url' => ['/account']],
+            ['label' => isset(Yii::$app->user->identity->name) ?? '', 'url' => ['/account']],
             ('<li>'
                 . Html::beginForm(['/auth/logout'], 'post')
                 . Html::submitButton(
@@ -88,10 +88,10 @@ AppAsset::register($this);
     <footer class="footer d-flex" style="height:auto">
         <div class="container">
             <div class="main-info d-flex">
-                <p class="pull-left">&copy; Дмитрий Щёлкин Александрович  <?= date('Y') ?></p>
+                <p class="pull-left">&copy; Дмитрий Щёлкин Александрович <?= date('Y') ?></p>
                 <p class="ml-auto"><?= Yii::powered() ?></p>
             </div>
-            <div class="discription" >
+            <div class="discription">
                 <p><small>Разработка дипломного проекта на фреймворке Yii</small></p>
             </div>
 
