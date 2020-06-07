@@ -43,7 +43,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Новости', 'url' => ['/news']],
                 ['label' => 'О сайте', 'url' => ['/about']],
-                ['label' => 'Контакты', 'url' => ['/site/contact']],
+                ['label' => 'Контакты', 'url' => ['/contact']],
             ],
         ]);
 

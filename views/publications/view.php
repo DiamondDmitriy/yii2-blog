@@ -15,12 +15,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Публикации', 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $genrePost = Publications::getGenreName($model->genre);
-// Yii::warning();
+$visitor = isset( Yii::$app->user->identity->id) ?  Yii::$app->user->identity->id : null
 ?>
 
 <div class="publications-view">
 
-    <?php if ($model->creater_id == Yii::$app->user->identity->id) : ?>
+    <?php if ($model->creater_id == $visitor) : ?>
         <p>
             <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
@@ -62,7 +62,7 @@ $genrePost = Publications::getGenreName($model->genre);
         </div>
     <?php else : ?>
         <div class="alert alert-success">
-            Чтобы оставить коментарий <?= Html::a('Войдтите', '/login') ?> в профиль
+            Чтобы оставить коментарий необходимо <?= Html::a('войти', '/login') ?> в профиль
         </div>
     <?php endif ?>
 

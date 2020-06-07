@@ -113,7 +113,9 @@ class Publications extends \yii\db\ActiveRecord
         $jenre = Site::getJenre();
         $genrePost = explode(',', $genreList);
         return array_map(function ($item) use ($jenre) {
-            return $jenre[$item];
+            if(isset($jenre[$item])){
+                return $jenre[$item];
+            }
         }, $genrePost);
     }
 }

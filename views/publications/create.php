@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'genreList' => ($genreList) ? ArrayHelper::map($genreList, 'alias', 'name') : [],
+        'genreList' => isset($genreList) ? ArrayHelper::map($genreList, 'alias', 'name') : [],
     ]) ?>
 
 </div>

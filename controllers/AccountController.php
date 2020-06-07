@@ -42,21 +42,30 @@ class AccountController extends Controller
     {
         $this->layout = 'main';
 
+        if(\Yii::$app->user->isGuest){
+            throw new \yii\web\ForbiddenHttpException("Доступ только для авторизованых пользователей");
+        }
+
         $dataProvider = new PublicationsSearch();
 
         return $this->render('index.php', [
-            'dataProvider' => $dataProvider->search([]),
+            'dataProvider' => $dataProvider->search(['creater_id'=>\Yii::$app->user->identity->id]),
         ]);
     }
 
     public function actionSetting()
     {
+        $this->layout = 'main';
+
+        if(\Yii::$app->user->isGuest){
+            throw new \yii\web\ForbiddenHttpException("Доступ только для авторизованых пользователей");
+        }
+
         $id = Yii::$app->user->identity->id;
         $model = settingAcountModel::findOne(['id' => $id]);
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-                // $model->id = Yii::$app->user->identity->id;
 
                 if ($model->save()) {
                     return $this->redirect(['/account']);

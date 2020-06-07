@@ -49,6 +49,8 @@ class PublicationsSearch extends Publications
         $this->sortField = (empty($params['sortField'])) ? 'id' : $params['sortField'];
         $this->orderSort = isset($params['orderSort']) ? $params['orderSort'] : false;
 
+        isset($params['creater_id']) ? $this->creater_id = $params['creater_id'] : '';
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => [$this->sortField => ($this->orderSort) ? SORT_ASC : SORT_DESC]],

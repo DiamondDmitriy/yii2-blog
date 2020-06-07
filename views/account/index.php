@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $user =  Yii::$app->user->identity;
+$fio = isset($user->fio)?  $user->fio : 'не задано';
 $imgProfile = Html::img(!empty($user->url_photo) ? 's' : Yii::$app->params['defaultImg']['profile'], ['height' => '300px', 'width' => '300px']);
 
 $this->title = 'Аккаунт';
@@ -32,13 +33,11 @@ $addPost = <<<HTML
   <path fill-rule="evenodd" d="M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z" clip-rule="evenodd"/>
 </svg>
 HTML;
-$fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
 ?>
 
 
 <div class="row">
   <div class="col-md-3">
-    <!-- <img src="s" width="250px" height="250px"> -->
     <?= $imgProfile ?>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><button class="btn btn-link" style="display: contents;" data-toggle="modal" data-target=".bd-uploadImg-modal"><?= $iconDownload ?> Загрузить изображение</button></li>
@@ -49,8 +48,8 @@ $fio = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic;
   <div class="col-sm-7 offset-md-2">
     <ul class="border list-group list-group-flush">
       <li class="list-group-item"><span class="font-weight-bold">ФИО:</span> <span class="justify-content-end"><?= $fio ?></span></li>
-      <li class="list-group-item"><span class="font-weight-bold">Я сказал:</span> <span class="text-right"><?= $user->status ?></span> </li>
-      <li class="list-group-item"><span class="font-weight-bold">Возраст:</span><span class="pull-right"><?= $user->age ?></span></li>
+      <li class="list-group-item"><span class="font-weight-bold">Статус:</span> <span class="text-right"><?= !empty($user->status) ? $user->status : 'Не задан' ?></span> </li>
+      <li class="list-group-item"><span class="font-weight-bold">Возраст:</span> <span class="pull-right"><?= !empty($user->age) ? $user->age : 'Не задан'  ?></span></li>
     </ul>
   </div>
 </div>
