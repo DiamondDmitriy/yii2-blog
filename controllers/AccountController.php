@@ -45,7 +45,9 @@ class AccountController extends Controller
 
         if (\Yii::$app->user->isGuest && is_null($id)) {
             throw new \yii\web\ForbiddenHttpException("Доступ только для авторизованых пользователей");
-        } else if (is_null($id)) {
+        } 
+        
+        if (is_null($id)) {
             $id = \Yii::$app->user->identity->id;
         }
 
@@ -55,7 +57,7 @@ class AccountController extends Controller
         return $this->render('index.php', [
             'dataProvider' => $dataProvider->search(['creater_id' => $id]),
             'modelImage' => $modelImage,
-            'idAcount' => $id
+            'idAccount' => $id
         ]);
     }
 

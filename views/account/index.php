@@ -8,11 +8,12 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use app\widgets\UserAvatar;
 
+
 $isGuest = Yii::$app->user->isGuest;
-$carrentId = isset($idAcount) ? $idAcount : $idUser;
+$carrentId = isset($idAccount) ? $idAccount : $idUser;
 $user =  Site::getAccountUser($carrentId);
 $fio = isset($user->fio) ?  $user->fio : 'не задано';
-$idUser = isset($user->id)? $user->id : null ; 
+$idUser = isset(Yii::$app->user->identity->id)? Yii::$app->user->identity->id : null ; 
 
 
 $this->title = 'Аккаунт';
