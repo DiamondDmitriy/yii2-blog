@@ -165,16 +165,4 @@ class PublicationsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
-    // public function actionUpload()
-    // {
-    //     // $model = new UploadImage();
-    //     if (Yii::$app->request->isPost) {
-    //         $model->image =  UploadedFile::getInstance($model, 'image');
-    //         $model->upload();
-    //         return $this->render('upload', ['model' => $model]);
-    //     }
-    //     return $this->render('upload', ['model' => $model]);
-    // }
 }

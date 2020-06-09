@@ -1,0 +1,12 @@
+$taitleColor: #ffe484;
+.user-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: inherit;
+    background-position: center;
+}
+
+.main-style-title {
+    color: $taitleColor;
+    font-weight: 700;
+}

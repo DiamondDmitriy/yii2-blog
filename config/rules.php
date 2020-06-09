@@ -11,4 +11,5 @@ return [
     'account'=>'account/index',
     'phpinfo'=>'site/phpinfo',
     'account/setting'=>'account/setting',
+    'account/upload-image'=>'account/upload-image',
 ];

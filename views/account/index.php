@@ -1,14 +1,19 @@
 <?php
 
+use app\models\Site;
 use yii\bootstrap4\ActiveForm as Bootstrap4ActiveForm;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use app\widgets\UserAvatar;
 
-$user =  Yii::$app->user->identity;
-$fio = isset($user->fio)?  $user->fio : 'не задано';
-$imgProfile = Html::img(!empty($user->url_photo) ? 's' : Yii::$app->params['defaultImg']['profile'], ['height' => '300px', 'width' => '300px']);
+$isGuest = Yii::$app->user->isGuest;
+$carrentId = isset($idAcount) ? $idAcount : $idUser;
+$user =  Site::getAccountUser($carrentId);
+$fio = isset($user->fio) ?  $user->fio : 'не задано';
+$idUser = isset($user->id)? $user->id : null ; 
+
 
 $this->title = 'Аккаунт';
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,15 +42,23 @@ HTML;
 
 
 <div class="row">
-  <div class="col-md-3">
-    <?= $imgProfile ?>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><button class="btn btn-link" style="display: contents;" data-toggle="modal" data-target=".bd-uploadImg-modal"><?= $iconDownload ?> Загрузить изображение</button></li>
-      <li class="list-group-item"><a href="/account/setting"><?= $iconSetting ?> Настройки</a></li>
-    </ul>
+  <div class="col-md-6 col-lg-4 col-sm-12">
+
+    <?= UserAvatar::widget([
+      'width' => 300,
+      'height' => 300,
+      'id_user'=> $carrentId,
+    ]) ?>
+
+    <?php if (!$isGuest && $carrentId == $idUser ) : ?>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><button class="btn btn-link" style="display: contents;" data-toggle="modal" data-target=".bd-uploadImg-modal"><?= $iconDownload ?> Загрузить изображение</button></li>
+        <li class="list-group-item"><a href="/account/setting"><?= $iconSetting ?> Настройки</a></li>
+      </ul>
+    <?php endif; ?>
 
   </div>
-  <div class="col-sm-7 offset-md-2">
+  <div class="col-sm-12 col-md-6 ml-auto">
     <ul class="border list-group list-group-flush">
       <li class="list-group-item"><span class="font-weight-bold">ФИО:</span> <span class="justify-content-end"><?= $fio ?></span></li>
       <li class="list-group-item"><span class="font-weight-bold">Статус:</span> <span class="text-right"><?= !empty($user->status) ? $user->status : 'Не задан' ?></span> </li>
@@ -87,7 +100,7 @@ HTML;
 
 
 <!-- modal -->
-<div class="modal fade bd-uploadImg-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-uploadImg-modal" id="bd-uploadImg-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -106,18 +119,23 @@ HTML;
           'data-pjax' => true,
         ],
         'fieldConfig' => [
-          'template' => '<div class="col-md-1">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
+          'template' => '<div class="col-md-4">{label}</div><div class="col-md-5">{input}</div><div class="col-md-6">{error}</div>',
         ],
       ]);
       ?>
       <div class="modal-body">
         <p>Выберите изображение на своём компьтере</p>
-        <?= /* $form->field($modelUploadImg, 'image')->fileInput('image')->label(''); */ '' ?>
+        <?= \Yii::$app->view->renderFile('@app/views/site/layout/uploadImg.php', [
+          'form' => $form,
+          'model' => $modelImage,
+          'widthImg' => '100%',
+          'label' => 'Загрузить аватар',
+        ]); ?>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-        <submit type="button" class="btn btn-primary disabled">Сохранить</submit>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'id' => 'img-submit']); ?>
       </div>
 
       <?php
@@ -127,3 +145,51 @@ HTML;
     </div>
   </div>
 </div>
+
+
+<?php
+
+$JS_MODAL = <<<JS
+let imgFile;
+
+$('#bd-uploadImg-modal').on('hidden.bs.modal', function(){
+  $('#blah')[0].src = '#';
+  $('#image-form')[0].value = '';
+});
+
+$("#image-form").change(function() {
+  imgFile = this.files;
+});
+
+$('form').on('beforeSubmit',function (){
+  let data = {'imageBase64': base64Image };
+  (base64Image !== undefined) && uploadImage(data);
+  return false;
+});
+
+
+function refreshAvatar(){
+  document.location.reload(true);
+}
+
+function errorUpdateAvatar(){
+
+}
+
+function uploadImage(data){
+    $.ajax({
+      url:'/account/upload-image',
+      type: 'POST',
+      data: data,
+    }).done(response=>{
+          if(response){
+            refreshAvatar();
+          }  else{
+            errorUpdateAvatar();
+          }
+    });
+}
+JS;
+
+
+$this->registerJs($JS_MODAL,  yii\web\View::POS_END);

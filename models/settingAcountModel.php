@@ -62,7 +62,7 @@ class settingAcountModel extends \yii\db\ActiveRecord
             'name' => 'Имя',
             'lastname' => 'Фамилия',
             'patronymic' => 'Отчество',
-            'age' => 'Возрост',
+            'age' => 'Возраст',
             'auth_key' => 'Auth Key',
             'mail' => 'Email',
             'login' => 'Login',

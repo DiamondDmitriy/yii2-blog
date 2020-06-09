@@ -114,3 +114,15 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
   outline: none;
 }
+
+.user-img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: inherit;
+  background-position: center;
+}
+
+.main-style-title {
+  color: #ffe484;
+  font-weight: 700;
+}

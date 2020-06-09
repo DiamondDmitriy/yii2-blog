@@ -12,7 +12,8 @@ use app\models\PublicationsSearch;
 use app\models\RegistrationForm;
 use app\models\settingAcountModel;
 use yii\web\UploadedFile;
-use app\models\auxiliary\UploadImage;
+use app\models\UploadImage;
+use app\models\User;
 
 class AccountController extends Controller
 {
@@ -42,14 +43,19 @@ class AccountController extends Controller
     {
         $this->layout = 'main';
 
-        if(\Yii::$app->user->isGuest){
+        if (\Yii::$app->user->isGuest && is_null($id)) {
             throw new \yii\web\ForbiddenHttpException("Доступ только для авторизованых пользователей");
+        } else if (is_null($id)) {
+            $id = \Yii::$app->user->identity->id;
         }
 
         $dataProvider = new PublicationsSearch();
+        $modelImage = new UploadImage();
 
         return $this->render('index.php', [
-            'dataProvider' => $dataProvider->search(['creater_id'=>\Yii::$app->user->identity->id]),
+            'dataProvider' => $dataProvider->search(['creater_id' => $id]),
+            'modelImage' => $modelImage,
+            'idAcount' => $id
         ]);
     }
 
@@ -57,8 +63,8 @@ class AccountController extends Controller
     {
         $this->layout = 'main';
 
-        if(\Yii::$app->user->isGuest){
-            throw new \yii\web\ForbiddenHttpException("Доступ только для авторизованых пользователей");
+        if (\Yii::$app->user->isGuest) {
+            throw new \yii\web\ForbiddenHttpException("Доступ закры!");
         }
 
         $id = Yii::$app->user->identity->id;
@@ -76,5 +82,19 @@ class AccountController extends Controller
         return $this->render('setting', [
             'model' => $model,
         ]);
+    }
+
+
+    public function actionUploadImage()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $post = Yii::$app->request->post();
+
+            $status = User::uploadAvatar($post['imageBase64']);
+            return $status['status'];
+        } else {
+            throw new \yii\web\ForbiddenHttpException("Нет доступа");
+        }
     }
 }

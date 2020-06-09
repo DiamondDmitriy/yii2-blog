@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\LoginForm;
 
 class RegistrationForm extends Model
 {
@@ -127,5 +128,11 @@ SQL;
         } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
         }
+    }
+    public function loginAfter(){
+        // return Yii::$app->user->login($this->getUser(), 0);
+        $model = new LoginForm();
+        // $model
+
     }
 }

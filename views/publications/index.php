@@ -88,7 +88,6 @@ $this->registerCSS($mainCss);
             <?php Pjax::begin() ?>
             <?= ListView::widget([
                 'dataProvider' => $dataProvider,
-                // 'filterModel' => $searchModel,
                 'itemView' => '_itemPublication',
             ]); ?>
             <?php Pjax::end() ?>

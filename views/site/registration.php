@@ -16,8 +16,8 @@ $url_sign_in = '/login';
         'id' => 'sign-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+            'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-12 control-label'],
         ],
     ]); ?>
 
@@ -35,11 +35,11 @@ $url_sign_in = '/login';
 
 
     <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
+        <div class="col-lg-offset-1 col-lg-11" style="margin-top: 20px;">
             <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
 
-        <div class="col-lg-offset-1 col-lg-11">
+        <div class="col-lg-offset-1 col-lg-11" style="margin-top: 20px;">
             <?= Html::a('Войти', $url_sign_in, []) ?>
         </div>
     </div>

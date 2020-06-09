@@ -31,14 +31,14 @@ $url_reg = '/registration';
 
     <?= $form->field($model, 'rememberMe')->checkbox([
         'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-    ]) ?>
+    ])->label('Запомнить меня') ?>
 
     <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
+        <div class="col-lg-offset-1 col-lg-11" style="margin-top: 20px;">
             <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
 
-        <div class="col-lg-offset-1 col-lg-11">
+        <div class="col-lg-offset-1 col-lg-11" style="margin-top: 20px;">
             <?= Html::a('Зарегистрироваться', $url_reg, []) ?>
         </div>
     </div>

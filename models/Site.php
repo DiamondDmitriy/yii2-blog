@@ -43,4 +43,12 @@ SQL;
 
         return file_exists($filePath);
     }
+
+    public static function getAccountUser($id = null){
+        if($id == null){
+            return Yii::$app->user->identity;
+        }else{
+            return (object)User::getUsersList($id);
+        }
+    }
 }

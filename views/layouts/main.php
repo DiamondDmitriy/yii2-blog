@@ -9,6 +9,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\bootstrap4\Breadcrumbs;
 use app\assets\AppAsset;
+use app\widgets\UserAvatar;
 
 AppAsset::register($this);
 
@@ -32,7 +33,9 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
         NavBar::begin([
-            'brandLabel' => Yii::$app->name,
+            'brandLabel' => Html::tag('span', Yii::$app->name, [
+                'class' => 'main-style-title',
+            ]),
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar navbar-expand-lg navbar-dark bg-dark'
@@ -48,23 +51,25 @@ AppAsset::register($this);
         ]);
 
         $itemsAuth = [
-            ['label' => isset(Yii::$app->user->identity->name)? Yii::$app->user->identity->name : '', 'url' => ['/account']],
+            ['label' => isset(Yii::$app->user->identity->name) ? Yii::$app->user->identity->name : '', 'url' => ['/account']],
             ('<li>'
                 . Html::beginForm(['/auth/logout'], 'post')
                 . Html::submitButton(
-                    'Выйте',
+                    'Выйти',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
                 . '</li>'),
-            (Html::a('', '/account', [
-                'class' => 'text-center align-self-center',
-                'style' => 'border-radius: 50%; width: 50px; background-color: white; height: 50px; color: black'
-            ])),
+            ('<a href="/account" class="text-center align-self-center"  style="border-radius: 50%">' . UserAvatar::widget([
+                'width' => 50,
+                'height' => 50,
+            ]) . '</a>'),
         ];
 
         $itemsAuthLogin = [
-            ['label' => 'Войти', 'url' => ['/auth/login']]
+            ['label' => 'Войти', 'url' => ['/login']],
+            ['label' => 'Регистрация', 'url' => ['/registration']]
+
         ];
 
         echo Nav::widget([

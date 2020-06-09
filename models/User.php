@@ -64,7 +64,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
 
-        foreach ($userQ = $this->getUsersList() as $user) {
+        foreach ($userQ = self::getUsersList() as $user) {
             // if ($user['accessToken'] === $token) {
             return new static($user);
             // }
@@ -136,5 +136,29 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public function validatePassword($password, $auth_key)
     {
         return Yii::$app->getSecurity()->validatePassword($password, $auth_key);
+    }
+
+    /**
+     * upload avatar
+     */
+    public static function uploadAvatar($base64Image, $id = null)
+    {
+
+        if (is_null($id) && !Yii::$app->user->isGuest) {
+            $id = Yii::$app->user->identity->id;
+        }
+
+        if (!is_null($id)) {
+            try {
+                Yii::$app->db->createCommand()->update('users', ['url_photo' => $base64Image], "id = $id")->execute();
+                
+                return ['status' => true];
+            } catch (\yii\db\Exception $e) {
+                Yii::error($e->getMessage());
+                return ['status' => false, 'messange' => $e->getMessage()];
+            }
+        } else {
+            return ['status' => false, 'messange' => 'user is not found'];
+        }
     }
 }

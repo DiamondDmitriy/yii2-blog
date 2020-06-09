@@ -118,4 +118,6 @@ class Publications extends \yii\db\ActiveRecord
             }
         }, $genrePost);
     }
+
+    
 }

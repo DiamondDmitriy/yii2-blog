@@ -6,7 +6,7 @@ use yii\bootstrap4\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use kartik\select2\Select2;
 use yii\widgets\Pjax;
-use yii\base\View;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Publications */
@@ -28,7 +28,8 @@ $genreList = Site::getJenre();
     <?= \Yii::$app->view->renderFile('@app/views/site/layout/uploadImg.php', [
         'form' => $form,
         'model' => $model,
-        'widthImg' => '100%'
+        'widthImg' => '100%',
+        'label'=> 'Обложка поста',
     ]); ?>
 
     <?= $form->field($model, 'summary')->textarea(['rows' => 6]) ?>
