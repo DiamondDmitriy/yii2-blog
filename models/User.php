@@ -103,6 +103,36 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return null;
     }
 
+
+        /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findOne($expression)
+    {
+
+        try {
+            $userQ = (new \yii\db\Query())
+                ->select('*')
+                ->from('users')
+                ->where($expression)
+                ->one();
+
+            $lastname = isset($userQ['Lastname']) ? $userQ['Lastname'] : '';
+            $name = isset($userQ['Name']) ? $userQ['Name'] : '';
+            $patronymic = isset($userQ['Patronymic']) ? $userQ['Patronymic'] : '';
+
+            $userQ['fio'] = implode(" ", [$lastname, $name, $patronymic]);
+
+            return new static($userQ);
+        } catch (\yii\db\Exception $e) {
+            Yii::error($e->getMessage());
+        }
+
+        return null;
+    }
     /**
      * {@inheritdoc}
      */
@@ -135,7 +165,9 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password, $auth_key)
     {
+        
         return Yii::$app->getSecurity()->validatePassword($password, $auth_key);
+
     }
 
     /**

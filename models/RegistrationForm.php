@@ -111,7 +111,6 @@ SQL;
 
     public function registration()
     {
-        // return false;
         $hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
 
         try {
@@ -123,16 +122,16 @@ SQL;
                     ':login' => $this->login,
                     ':auth_key' => $hash,
                 ])->execute();
-                
-                return true;
         } catch (\yii\db\Exception $e) {
             Yii::error($e->getMessage());
         }
-    }
-    public function loginAfter(){
-        // return Yii::$app->user->login($this->getUser(), 0);
-        $model = new LoginForm();
-        // $model
 
+        $this->loginAfter($hash);
+        return true;
+    }
+    public function loginAfter($authKey)
+    {
+        $identity = User::findOne(['auth_key' => $authKey]);
+        Yii::$app->user->login($identity);
     }
 }

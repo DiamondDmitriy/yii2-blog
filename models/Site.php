@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 
 
 
-class Site extends yii\base\Model
+class Site extends \yii\base\Model
 {
 
 
