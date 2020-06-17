@@ -102,7 +102,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->registration()) {
             
-            return $this->redirect('/');
+            return $this->goBack();
         }
 
         return $this->render(

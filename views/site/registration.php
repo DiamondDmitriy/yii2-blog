@@ -21,11 +21,17 @@ $url_sign_in = '/login';
         ],
     ]); ?>
 
+    <?php
+    if (Yii::$app->session->hasFlash('registrationError')) {
+        echo '<p class="help-block help-block-error ">'.Yii::$app->session->getFlash('registrationError').'</p>';
+    }
+    ?>
+
     <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
 
     <?= $form->field($model, 'lastname')->textInput() ?>
 
-    <?= $form->field($model, 'email')->textInput(['placeholder'=>'same@youmail.com']) ?>
+    <?= $form->field($model, 'email')->textInput(['placeholder' => 'same@youmail.com']) ?>
 
     <?= $form->field($model, 'login')->textInput() ?>
 

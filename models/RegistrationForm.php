@@ -29,8 +29,6 @@ SQL;
             [['login', 'password', 'password_repeat', 'email', 'name'], 'required', 'message' => 'Не забудь про меня!'],
             ['email', 'email', 'message' => 'Не верный формат!'],
             ['lastname', 'safe'],
-            // ['lastname', 'filter' => 'trim'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword', 'message' => 'Пароль некорректный'],
             ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароль не совпадает'],
             ['login', 'validateLogin', 'message' => 'Логин некорректный'],
@@ -38,7 +36,6 @@ SQL;
             [['login', 'password', 'email'], 'string', 'message' => 'Длинна должна быть от 6 символов', 'length' => [6, 22]]
         ];
     }
-    // 'match', 'pattern' => '/^[a-z]\w*$/i'
 
 
     public function attributeLabels()
@@ -67,13 +64,11 @@ SQL;
      */
     public function validatePassword($attribute, $params)
     {
-        // if (!$this->hasErrors()) {
-        //     $user = $this->getUser();
-
-        //     if (!$user || !$user->validatePassword($this->password)) {
-        //         $this->addError($attribute, 'Что-то не сходится. Неверный логин или пароль');// а может твой партнёр
-        //     }
-        // }
+        if (!$this->hasErrors()) {
+            if (!$this->commonValidate($attribute)) {
+                $this->addError($attribute, 'Логин является не корректным');
+            }
+        }
     }
 
     /**
@@ -84,12 +79,16 @@ SQL;
     public function validateLogin($attribute, $params)
     {
         // if (!$this->hasErrors()) {
-        //     $user = $this->getUser();
-
-        //     if (!$user || !$user->validatePassword($this->password)) {
-        //         $this->addError($attribute, 'Что-то не сходится. Неверный логин или пароль');// а может твой партнёр
-        //     }
+        // if (!$this->commonValidate($attribute)) {
+        //     $this->addError($attribute, 'Логин является не корректным');
         // }
+
+        // login ununicated
+        // if(false){
+        // }
+        // }
+
+        return false;
     }
 
 
@@ -111,6 +110,11 @@ SQL;
 
     public function registration()
     {
+
+        if (!$this->validateHack($this->login) || !$this->validateHack($this->password)) {
+            return false;
+        }
+
         $hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
 
         try {
@@ -133,5 +137,28 @@ SQL;
     {
         $identity = User::findOne(['auth_key' => $authKey]);
         Yii::$app->user->login($identity);
+    }
+
+
+    public function commonValidate($field)
+    {
+        if (!is_string($field) || $field === '') {
+            return false;
+        }
+
+        if (!preg_match('/^[a-zA-Z\d]{6,}$/', $field)) {
+            Yii::warning(preg_match('/^[a-zA-Z\d]{6,}$/', $field));
+            return false;
+        }
+        
+        return true;
+    }
+    public function validateHack($attribute)
+    {
+        if (!$this->commonValidate($attribute)) {
+            Yii::$app->session->setFlash('registrationError','Логин или пароль не является корректным!');
+            return false;
+        }
+        return true;
     }
 }
