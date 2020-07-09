@@ -9,5 +9,4 @@ return [
         'profile' => '/images/profile-none-img.png',
         'post' => '/images/none_img.png'
     ],
-
 ];
