@@ -19,6 +19,7 @@ class RegistrationForm extends Model
     INSERT INTO users(NAME, LASTNAME, LOGIN , AUTH_KEY, MAIL) VALUES (:name, :lastname, :login, :auth_key, :mail)
 SQL;
 
+
     /**
      * @return array the validation rules.
      */

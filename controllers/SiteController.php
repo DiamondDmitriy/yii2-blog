@@ -112,4 +112,8 @@ class SiteController extends Controller
             ]
         );
     }
+
+    public function actionFm(){
+        return $this->render('fm');
+    }
 }

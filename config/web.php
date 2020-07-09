@@ -16,6 +16,7 @@ $config = [
         '@web' => dirname(__DIR__),
     ],
     'components' => [
+
         'view' => [
             'class' => 'yii\web\View',
             'renderers' => [
@@ -72,6 +73,21 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => $rules,
+        ],
+
+        'ftpFs' => [
+            'class' => 'creocoder\flysystem\FtpFilesystem',
+            'host' => 'diary',
+            'port' => 21,
+            'username' => 'ftp',
+            'password' => 'ftp',
+            // 'ssl' => true,
+            // 'timeout' => 60,
+            'root' => '/',
+            // 'permPrivate' => 0700,
+            // 'permPublic' => 0744,
+            // 'passive' => false,
+            // 'transferMode' => FTP_TEXT,
         ],
 
     ],

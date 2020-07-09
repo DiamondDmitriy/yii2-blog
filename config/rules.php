@@ -12,4 +12,5 @@ return [
     'phpinfo'=>'site/phpinfo',
     'account/setting'=>'account/setting',
     'account/upload-image'=>'account/upload-image',
+    'fm'=>'site/fm',
 ];

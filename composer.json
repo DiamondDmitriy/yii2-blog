@@ -23,7 +23,11 @@
         "mihaildev/yii2-ckeditor": "*",
         "yiisoft/yii2-imagine": "~2.2.0",
         "costa-rico/yii2-images": ">=1.0.5",
-        "kartik-v/yii2-widgets": "dev-master"
+        "kartik-v/yii2-widgets": "dev-master",
+
+        "mihaildev/yii2-elfinder": "*",
+        "mihaildev/yii2-elfinder-flysystem": "*",
+        "barryvdh/elfinder-flysystem-driver": "^0.2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
